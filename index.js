@@ -26,6 +26,49 @@ function initializeData() {
   }
 }
 
+function fetchAndDisplayBoardsAndTasks() {
+  // Fetch tasks
+  const tasks = getTasks();
+
+  // Function to group tasks by status
+  function groupTasksByStatus(data) {
+      const groupedTasks = {
+          "todo": [],
+          "doing": [],
+          "done": []
+      };
+
+      data.forEach(task => {
+          groupedTasks[task.status].push(task);
+      });
+
+      return groupedTasks;
+  }
+
+  // Generate HTML markup for tasks
+  function generateTaskHTML(task) {
+      return `
+          <div class="task">
+              <h3>${task.title}</h3>
+          </div>
+      `;
+  }
+
+  // Group tasks by status
+  const groupedTasks = groupTasksByStatus(tasks);
+
+  // Append tasks to their respective containers
+  for (const status in groupedTasks) {
+      const tasksContainer = document.querySelector(`.column-div[data-status="${status}"] .tasks-container`);
+      const tasksHTML = groupedTasks[status].map(task => generateTaskHTML(task)).join('');
+      tasksContainer.innerHTML = tasksHTML;
+  }
+}
+
+// Call the fetchAndDisplayBoardsAndTasks function
+fetchAndDisplayBoardsAndTasks();
+
+/*
 // TASK: Get elements from the DOM
 const elements = {
   navigationSidebar: document.getElementById("side-bar-div"),
@@ -62,7 +105,7 @@ function fetchAndDisplayBoardsAndTasks() {
     refreshTasksUI();
   }
 }
-
+/*
 // Creates different boards in the DOM
 // TASK: Fix Bugs
 function displayBoards(boards) {
@@ -212,7 +255,7 @@ function toggleModal(show, modal = elements.modalWindow) {
 /*************************************************************************************************************************************************
  * COMPLETE FUNCTION CODE
  * **********************************************************************************************************************************************/
-
+/*
 function addTask(event) {
   event.preventDefault(); 
 
@@ -284,3 +327,4 @@ function init() {
   document.body.classList.toggle('light-theme', isLightTheme);
   fetchAndDisplayBoardsAndTasks(); // Initial display of boards and tasks
 }
+*/

@@ -253,6 +253,7 @@ header {
   max-height: auto;
   /* overflow: auto; */
   box-sizing: border-box;
+  color: white;
 }
 
 .card-column-main {
