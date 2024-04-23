@@ -157,7 +157,7 @@ function setupEventListeners() {
   // Cancel adding new task event listener
   const cancelAddTaskBtn = document.getElementById('cancel-add-task-btn');
   cancelAddTaskBtn.addEventListener('click', () => {
-    toggleModal(false);
+    newToggleModal(false);
     elements.filterDiv.style.display = 'none'; // Also hide the filter overlay
   });
 
@@ -165,13 +165,15 @@ function setupEventListeners() {
   document.addEventListener('mousedown', (event) => {
     if (!elements.editTaskModalWindow.contains(event.target)) {
       toggleModal(false);
+      newToggleModal(false);
       elements.filterDiv.style.display = 'none'; // Also hide the filter overlay
     }
   });
 
   // Show sidebar event listener
-  elements.hideSideBarBtn.addEventListener('click', () => toggleSidebar(false));
-  elements.showSideBarBtn.addEventListener('click', () => toggleSidebar(true));
+  elements.hideSideBarBtn.addEventListener('click', () => toggleSidebar(true));
+  console.log("hide button clicked")
+  elements.showSideBarBtn.addEventListener('click', () => toggleSidebar(false));
 
   // Theme switch event listener
   elements.themeSwitch.addEventListener('change', toggleTheme);
@@ -231,11 +233,16 @@ function toggleSidebar(show) {
   // Implement sidebar toggle functionality here
   const sidebar = document.querySelector('.side-bar');
 
-  if (show) {
-    sidebar.classList.remove('show-sidebar');
-  } else {
+  if (!show) {
     sidebar.classList.add('show-sidebar');
+    elements.hideSideBarBtn.style.display = 'block';
+    elements.showSideBarBtn.style.display = 'none';
+  } else {
+    sidebar.classList.remove('show-sidebar');
+    elements.hideSideBarBtn.style.display = 'none';
+    elements.showSideBarBtn.style.display = 'block';
   }
+
 }
 
 function toggleTheme() {
@@ -271,7 +278,6 @@ function openEditTaskModal(task) {
   // Get button elements from the task modal
   const saveChangesButton = document.getElementById('save-task-changes-btn');
   const deleteTaskButton = document.getElementById('delete-task-btn');
-  //const cancelEditButton = document.getElementById('cancel-edit-btn')
 
   // Call saveTaskChanges upon click of Save Changes button
   saveChangesButton.addEventListener('click', function() {
