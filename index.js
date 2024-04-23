@@ -15,6 +15,8 @@ import { initialData } from './initialData.js';
  * FIX BUGS!!!
  * **********************************************************************************************************************************************/
 
+localStorage.clear();
+
 // Function checks if local storage already has data, if not it loads initialData to localStorage
 function initializeData() {
   if (!localStorage.getItem('tasks')) {
@@ -172,7 +174,6 @@ function setupEventListeners() {
 
   // Show sidebar event listener
   elements.hideSideBarBtn.addEventListener('click', () => toggleSidebar(true));
-  console.log("hide button clicked")
   elements.showSideBarBtn.addEventListener('click', () => toggleSidebar(false));
 
   // Theme switch event listener
@@ -298,11 +299,11 @@ function openEditTaskModal(task) {
 function saveTaskChanges(taskId) {
   // Get new user inputs
   const titleInput = document.getElementById('edit-task-title-input');
-  const descInput = document.getElementById('edit-task-desc-input');
+  const descriptionInput = document.getElementById('edit-task-desc-input');
   const statusSelect = document.getElementById('edit-select-status');
 
   const newTitle = titleInput.value;
-  const newDescription = descInput.value;
+  const newDescription = descriptionInput.value;
   const newStatus = statusSelect.value;
 
   // Create an object with the updated task details
@@ -314,7 +315,24 @@ function saveTaskChanges(taskId) {
   };
 
   // Update task using a helper function
-  updateTask(updatedTask);
+  patchTask(taskId, updatedTask);
+
+  // Remove the existing task element from the UI
+  const existingTaskElement = document.querySelector(`.task-div[data-task-id="${taskId}"]`);
+  existingTaskElement.remove();
+
+  // Create a new task element with the updated details
+  const taskElement = document.createElement("div");
+  taskElement.classList.add("task-div");
+  taskElement.textContent = newTitle;
+  taskElement.setAttribute('data-task-id', taskId);
+
+  // Move task to the appropriate column in the UI
+  document.addEventListener('DOMContentLoaded', function() {
+  const columnDiv = document.querySelector(`.column-div[data-status="${newStatus}"] .tasks-container`);
+  console.log(`the action returns a ${columnDiv}`);
+  columnDiv.appendChild(taskElement);
+  });
 
   // Close the modal
   toggleModal(false);
@@ -322,6 +340,7 @@ function saveTaskChanges(taskId) {
   // Refresh the UI to reflect the changes
   refreshTasksUI();
 }
+
 
 /*************************************************************************************************************************************************/
 
