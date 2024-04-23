@@ -163,7 +163,7 @@ function setupEventListeners() {
 
   // Clicking outside the modal to close it
   document.addEventListener('mousedown', (event) => {
-    if (!elements.editTaskModalWindow.contains(event.target)) {
+    if (!elements.editTaskModalWindow.contains(event.target) && !elements.newTaskModalWindow.contains(event.target)) {
       toggleModal(false);
       newToggleModal(false);
       elements.filterDiv.style.display = 'none'; // Also hide the filter overlay
