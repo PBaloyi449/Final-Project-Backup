@@ -268,19 +268,13 @@ function toggleTheme() {
 
 function openEditTaskModal(task) {
   // Set task details in modal inputs
-  const titleInput = document.getElementById('edit-task-title-input');
-  const descriptionInput = document.getElementById('edit-task-desc-input');
-  const statusSelect = document.getElementById('edit-select-status');
-
-  titleInput.value = task.title;
-  descriptionInput.value = task.description;
-  statusSelect.value = task.status;
+  updateTaskDetailsInModal(task);
 
   // Get button elements from the task modal
   const saveChangesButton = document.getElementById('save-task-changes-btn');
   const deleteTaskButton = document.getElementById('delete-task-btn');
 
-  // Call saveTaskChanges upon click of Save Changes button
+  // Call saveTaskChangesInModal upon click of Save Changes button
   saveChangesButton.addEventListener('click', function() {
     saveTaskChanges(task.id);
   });
@@ -298,31 +292,34 @@ function openEditTaskModal(task) {
   toggleModal(true);
 }
 
+function updateTaskDetailsInModal(task) {
+  // Set task details in modal inputs
+  const titleInput = document.getElementById('edit-task-title-input');
+  const descriptionInput = document.getElementById('edit-task-desc-input');
+  const statusSelect = document.getElementById('edit-select-status');
+
+  titleInput.value = task.title;
+  descriptionInput.value = task.description; // Include description
+  statusSelect.value = task.status;
+}
+
 function saveTaskChanges(taskId) {
- // Get new user inputs
- const titleInput = document.getElementById('edit-task-title-input').value;
- const descriptionInput = document.getElementById('edit-task-desc-input').value;
- const statusInput = document.getElementById('edit-select-status').value;
- const boardName = elements.headerBoardName.textContent;
+  // Get new user input for status
+  const statusInput = document.getElementById('edit-select-status').value;
+  
+  // Fetch the existing task from local storage
+  const tasks = getTasks();
+  const taskToUpdate = tasks.find(task => task.id === taskId);
 
- // Create an object with the updated task details
- const updatedTask = {
-   "id": taskId,
-   "title": titleInput,
-   "description": descriptionInput,
-   "status": statusInput,
-   "board": boardName
- };
- 
+  // Update only the status of the task
+  taskToUpdate.status = statusInput;
 
- // Update task using a helper functoin
- patchTask(taskId, updatedTask);
+  // Update the task in local storage
+  patchTask(taskId, taskToUpdate);
 
-
- // Close the modal and refresh the UI to reflect the changes
- toggleModal(false, elements.editTaskModal);
- refreshTasksUI();
-
+  // Close the modal and refresh the UI to reflect the changes
+  toggleModal(false, elements.editTaskModal);
+  refreshTasksUI();
 }
 
 /*************************************************************************************************************************************************/
