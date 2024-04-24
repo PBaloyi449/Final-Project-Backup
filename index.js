@@ -15,7 +15,7 @@ import { initialData } from './initialData.js';
  * FIX BUGS!!!
  * **********************************************************************************************************************************************/
 
-localStorage.clear();
+//localStorage.clear();
 
 // Function checks if local storage already has data, if not it loads initialData to localStorage
 function initializeData() {
@@ -274,10 +274,15 @@ function openEditTaskModal(task) {
   const saveChangesButton = document.getElementById('save-task-changes-btn');
   const deleteTaskButton = document.getElementById('delete-task-btn');
 
-  // Call saveTaskChangesInModal upon click of Save Changes button
-  saveChangesButton.addEventListener('click', function() {
+  // Define the event listener function for saving changes
+  function handleSavingTheChanges() {
     saveTaskChanges(task.id);
-  });
+    // Remove the event listener after saving the task
+    saveChangesButton.removeEventListener('click', handleSavingTheChanges);
+  }
+
+  // Add event listener for Save Changes button
+  saveChangesButton.addEventListener('click', handleSavingTheChanges);
 
   // Implement logic to delete task using a helper function, if required
   deleteTaskButton.addEventListener('click', function() {
@@ -291,6 +296,7 @@ function openEditTaskModal(task) {
   // Show the edit task modal
   toggleModal(true);
 }
+
 
 function updateTaskDetailsInModal(task) {
   // Set task details in modal inputs
