@@ -289,6 +289,8 @@ function openEditTaskModal(task) {
   deleteTaskButton.addEventListener('click', function() {
     // Call a helper function to delete the task based on its ID
     deleteTask(task.id);
+    const existingTaskElement = document.querySelector(`.task-div[data-task-id="${task.id}"]`);
+    existingTaskElement.remove();
     toggleModal(false); // Close the task modal after deleting the task
   });
 
@@ -320,6 +322,7 @@ function saveTaskChanges(taskId) {
   // Remove the existing task element from the UI
   const existingTaskElement = document.querySelector(`.task-div[data-task-id="${taskId}"]`);
   existingTaskElement.remove();
+  
 
   // Create a new task element with the updated details
   const taskElement = document.createElement("div");
@@ -339,9 +342,9 @@ function saveTaskChanges(taskId) {
 
   // Refresh the UI to reflect the changes
   refreshTasksUI();
+
+
 }
-
-
 /*************************************************************************************************************************************************/
 
 document.addEventListener('DOMContentLoaded', function() {
