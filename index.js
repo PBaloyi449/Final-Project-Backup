@@ -299,52 +299,32 @@ function openEditTaskModal(task) {
 }
 
 function saveTaskChanges(taskId) {
-  // Get new user inputs
-  const titleInput = document.getElementById('edit-task-title-input');
-  const descriptionInput = document.getElementById('edit-task-desc-input');
-  const statusSelect = document.getElementById('edit-select-status');
+ // Get new user inputs
+ const titleInput = document.getElementById('edit-task-title-input').value;
+ const descriptionInput = document.getElementById('edit-task-desc-input').value;
+ const statusInput = document.getElementById('edit-select-status').value;
+ const boardName = elements.headerBoardName.textContent;
 
-  const newTitle = titleInput.value;
-  const newDescription = descriptionInput.value;
-  const newStatus = statusSelect.value;
+ // Create an object with the updated task details
+ const updatedTask = {
+   "id": taskId,
+   "title": titleInput,
+   "description": descriptionInput,
+   "status": statusInput,
+   "board": boardName
+ };
+ 
 
-  // Create an object with the updated task details
-  const updatedTask = {
-    id: taskId,
-    title: newTitle,
-    description: newDescription,
-    status: newStatus
-  };
+ // Update task using a helper functoin
+ patchTask(taskId, updatedTask);
 
-  // Update task using a helper function
-  patchTask(taskId, updatedTask);
 
-  // Remove the existing task element from the UI
-  const existingTaskElement = document.querySelector(`.task-div[data-task-id="${taskId}"]`);
-  existingTaskElement.remove();
-  
-
-  // Create a new task element with the updated details
-  const taskElement = document.createElement("div");
-  taskElement.classList.add("task-div");
-  taskElement.textContent = newTitle;
-  taskElement.setAttribute('data-task-id', taskId);
-
-  // Move task to the appropriate column in the UI
-  document.addEventListener('DOMContentLoaded', function() {
-  const columnDiv = document.querySelector(`.column-div[data-status="${newStatus}"] .tasks-container`);
-  console.log(`the action returns a ${columnDiv}`);
-  columnDiv.appendChild(taskElement);
-  });
-
-  // Close the modal
-  toggleModal(false);
-
-  // Refresh the UI to reflect the changes
-  refreshTasksUI();
-
+ // Close the modal and refresh the UI to reflect the changes
+ toggleModal(false, elements.editTaskModal);
+ refreshTasksUI();
 
 }
+
 /*************************************************************************************************************************************************/
 
 document.addEventListener('DOMContentLoaded', function() {
