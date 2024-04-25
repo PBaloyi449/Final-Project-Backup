@@ -37,7 +37,8 @@ const elements = {
   showSideBarBtn: document.getElementById("show-side-bar-btn"),
   themeSwitch: document.getElementById("switch"),
   createNewTaskBtn: document.getElementById("add-new-task-btn"),
-  newTaskModalWindow: document.getElementById("new-task-modal-window")
+  newTaskModalWindow: document.getElementById("new-task-modal-window"),
+  sideLogoImage: document.getElementById("logo")
   
 };
 
@@ -268,10 +269,15 @@ function toggleTheme() {
     // If currently in light theme, switch to dark theme
     body.classList.remove('light-theme');
     localStorage.setItem('theme', 'dark');
+    elements.sideLogoImage.src='./assets/logo-dark.svg';
+    console.log("if statement")
   } else {
     // If currently in dark theme, switch to light theme
     body.classList.add('light-theme');
     localStorage.setItem('theme', 'light');
+    elements.sideLogoImage.src = './assets/logo-light.svg';
+    console.log("else stament")
+
   }
 }
 
