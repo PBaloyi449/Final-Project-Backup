@@ -163,6 +163,11 @@ function setupEventListeners() {
     elements.filterDiv.style.display = 'none'; // Also hide the filter overlay
   });
 
+  const createTaskButton = document.getElementById("create-task-btn");
+  createTaskButton.addEventListener('click', () => {
+    newToggleModal(false);
+  })
+
   // Clicking outside the modal to close it
   document.addEventListener('mousedown', (event) => {
     if (!elements.editTaskModalWindow.contains(event.target) && !elements.newTaskModalWindow.contains(event.target)) {
@@ -189,6 +194,8 @@ function setupEventListeners() {
   elements.newTaskModalWindow.addEventListener('submit',  (event) => {
     addTask(event);
   });
+
+
 }
 
 // Toggles tasks modal
