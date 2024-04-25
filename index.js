@@ -270,15 +270,15 @@ function toggleTheme() {
     body.classList.remove('light-theme');
     localStorage.setItem('theme', 'dark');
     elements.sideLogoImage.src='./assets/logo-dark.svg';
-    console.log("if statement")
+    localStorage.setItem('logo', './assets/logo-dark.svg');
   } else {
     // If currently in dark theme, switch to light theme
     body.classList.add('light-theme');
     localStorage.setItem('theme', 'light');
     elements.sideLogoImage.src = './assets/logo-light.svg';
-    console.log("else stament")
-
+    localStorage.setItem('logo', './assets/logo-light.svg');
   }
+
 }
 
 function openEditTaskModal(task) {
@@ -360,6 +360,12 @@ function init() {
   if (isLightTheme === 'light'){
     document.body.classList.add('light-theme');
   }
+
+  const logo = localStorage.getItem('logo'); // Retrieve logo from local storage
+  if (logo) {
+    elements.sideLogoImage.src = logo; // Apply logo path to the logo element
+  }
+  
   //document.body.classList.toggle('light-theme', isLightTheme);
   fetchAndDisplayBoardsAndTasks(); // Initial display of boards and tasks
 }
