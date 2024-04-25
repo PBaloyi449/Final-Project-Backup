@@ -251,6 +251,8 @@ function toggleSidebar(show) {
     elements.showSideBarBtn.style.display = 'block';
   }
 
+  localStorage.setItem('showSideBar', show.toString());
+
 }
 
 function toggleTheme() {
@@ -348,7 +350,10 @@ function init() {
   setupEventListeners();
   const showSidebar = localStorage.getItem('showSideBar') === 'true';
   toggleSidebar(showSidebar);
-  const isLightTheme = localStorage.getItem('light-theme') === 'enabled';
-  document.body.classList.toggle('light-theme', isLightTheme);
+  const isLightTheme = localStorage.getItem('theme');
+  if (isLightTheme === 'light'){
+    document.body.classList.add('light-theme');
+  }
+  //document.body.classList.toggle('light-theme', isLightTheme);
   fetchAndDisplayBoardsAndTasks(); // Initial display of boards and tasks
 }
