@@ -319,13 +319,16 @@ function updateTaskDetailsInModal(task) {
 function saveTaskChanges(taskId) {
   // Get new user input for status
   const statusInput = document.getElementById('edit-select-status').value;
-  
+  const titleInput = document.getElementById('edit-task-title-input').value;
+  const descriptionInput = document.getElementById('edit-task-desc-input').value;
   // Fetch the existing task from local storage
   const tasks = getTasks();
   const taskToUpdate = tasks.find(task => task.id === taskId);
 
   // Update only the status of the task
   taskToUpdate.status = statusInput;
+  taskToUpdate.title = titleInput;
+  taskToUpdate.description = descriptionInput;
 
   // Update the task in local storage
   patchTask(taskId, taskToUpdate);
